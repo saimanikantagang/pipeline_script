@@ -1,0 +1,32 @@
+pipeline{
+    agent any
+
+    environment{
+        github_url = "https://github.com/saimanikantagang/pipeline_script.git",
+        branch = "main",
+        credentials = "Git_Hub"
+    }
+
+    stages{
+        stage('accessing env variables'){
+            steps{
+                script{
+
+                    git branch: "${env.branch}",
+                    credentialsId: "${env.credentials}", 
+                    url: "${env.github_url}"
+                }
+            }
+        }
+
+        stage('stage 2'){
+            steps{
+                sh '''
+                        ls -lrt
+                        echo $branch
+                        env
+                '''
+            }
+        }
+    }
+}
