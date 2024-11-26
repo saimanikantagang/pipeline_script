@@ -1,34 +1,31 @@
-pipeline{
+pipeline {
     agent any
 
-    environment{
-        github_url = "https://github.com/saimanikantagang/pipeline_script.git",
-        branch = "main",
+    environment {
+        github_url = "https://github.com/saimanikantagang/pipeline_script.git"
+        branch = "main"
         credentials = "Git_Hub"
     }
 
-    stages{
-        stage('accessing env variables'){
-            steps{
-                script{
-
-                    git branch: "${env.branch}",
-                    credentialsId: "${env.credentials}", 
-                    url: "${env.github_url}"
+    stages {
+        stage('Accessing Environment Variables') {
+            steps {
+                script {
+                    git branch: env.branch,
+                        credentialsId: env.credentials,
+                        url: env.github_url
                 }
             }
         }
 
-        stage('stage 2'){
-            steps{
+        stage('Stage 2') {
+            steps {
                 sh '''
-                        ls -lrt
-                        echo $branch
-                        env
+                    ls -lrt
+                    echo Branch: ${branch} # To print from Groovy, use inline substitution
+                    env
                 '''
             }
         }
     }
-}
-
 }
