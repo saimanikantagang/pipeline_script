@@ -5,6 +5,7 @@ pipeline{
         //disableConcurrentBuilds(abortPrevious: true)
         //disableConcurrentBuilds(abortPrevious: false)
         ansiColor('xterm')
+        timestamps()
     }
     stages{
         stage('Stage 1'){
