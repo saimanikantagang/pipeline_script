@@ -4,8 +4,7 @@ pipeline{
     stages{
         stage('Stage 1'){
             steps{
-               // git branch='main', url='https://github.com/saimanikantagang/pipeline_script.git', credentials=''
-                git branch: 'main', credentials: 'Git_Hub', GitHUB_url: 'https://github.com/saimanikantagang/pipeline_script.git'
+               git branch='main', url='https://github.com/saimanikantagang/pipeline_script.git', credentials='Git_Hub'
             }
         }
     }
