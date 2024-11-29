@@ -1,0 +1,15 @@
+pipeline{
+    agent any
+    parameters{
+        string(name: 'Enter your name', defaultValue: ' ', description: ' abcdefghijklmnop')
+        choice(name:'Environment', defaultValue:['Dev', 'Test', 'Prod'], description: 'Select one Option')
+    }
+
+    stages{
+        stage('Stage 1'){
+
+            echo "Executed successfully"
+
+        }
+    }
+}
