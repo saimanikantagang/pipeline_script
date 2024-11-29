@@ -1,0 +1,57 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Which branch to build')
+        booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Deploy to production?')
+        choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'production'], description: 'Select environment to deploy to')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    // Access parameters using 'params'
+                    echo "Building branch: ${params.BRANCH_NAME}"
+                    checkout scm: [$class: 'GitSCM', branches: [[name: "*/${params.BRANCH_NAME}"]]]
+                }
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                script {
+                    echo "Building the project"
+                    sh 'mvn clean install'
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                script {
+                    echo "Running tests"
+                    sh 'mvn test'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                expression { return params.DEPLOY == true }
+            }
+            steps {
+                script {
+                    echo "Deploying to ${params.ENVIRONMENT} environment"
+                    sh "mvn deploy -P${params.ENVIRONMENT}"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+    }
+}
