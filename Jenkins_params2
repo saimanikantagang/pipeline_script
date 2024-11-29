@@ -9,7 +9,7 @@ pipeline{
     stages{
         stage('Stage 1'){
 
-            echo "Executed successfully"
+            steps{echo "Executed successfully"}
 
         }
     }
