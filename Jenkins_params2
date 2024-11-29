@@ -1,7 +1,7 @@
 pipeline{
     agent any
     parameters{
-        string(name: 'Enter your name', defaultValue: ' ', description: ' abcdefghijklmnop')
+        string(name: 'Enter_your_name', defaultValue: ' ', description: ' abcdefghijklmnop')
         choice(name:'Environment', choices:['Dev', 'Test', 'Prod'], description: 'Select one Option')
     }
    
@@ -9,7 +9,12 @@ pipeline{
     stages{
         stage('Stage 1'){
 
-            steps{echo "Executed successfully"}
+            steps{
+                echo "Executed successfully"
+                echo 'String name : ${params.Enter_your_name}'
+                echo 'choice name : ${params.Environment}'
+                }
+
 
         }
     }
