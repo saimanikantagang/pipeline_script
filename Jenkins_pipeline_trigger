@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+    environment {
+        branch = 'main'
+        url = 'https://github.com/saimanikantagang/pipeline_script.git'
+        credentials = 'saimanikantagang' // Ensure this is the correct credentials ID
+    }
+    triggers {
+        pollscm(*/5 * * * *)
+    }
+    stages {
+        stage('Stage 1') {
+            steps {
+                script {
+                    echo "This is Stage 1"
+                    // Correct the 'credentialsId' parameter name
+                    git branch: "${env.branch}",
+                        url: "${env.url}",
+                        credentialsId: "${env.credentials}"
+                }
+            }
+        }
+    }
+}
+
+//  cron('2 * * * *') // Set the cron schedule for the job to trigger

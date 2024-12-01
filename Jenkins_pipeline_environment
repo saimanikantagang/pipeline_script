@@ -1,0 +1,32 @@
+pipeline{
+    agent any
+    environment{
+        Git_URL = 'https://github.com/saimanikantagang/pipeline_script.git'
+        Git_Branch = 'main'
+        Git_Credentials = 'saimanikantagang'
+    }
+
+    stages{
+        stage('Stage 1'){
+            steps{
+                echo "This is Stage 1"
+                script{
+                    git branch : "${env.Git_Branch}",
+                        url : "${env.Git_URL}",
+                        credentialsId : "${env.Git_Credentials}"
+                }
+            }
+        }
+
+        stage('Stage 2'){
+            steps{ 
+                echo "This is Stage 2"
+
+                sh'''
+                    ls -lrth
+                    echo "$Git_Branch"
+                '''
+            }
+        }
+    }
+}

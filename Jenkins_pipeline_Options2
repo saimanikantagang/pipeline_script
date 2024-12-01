@@ -1,0 +1,21 @@
+pipeline{
+    agent any
+    options{
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timestamps()
+        disableConcurrentBuilds()
+        retry(3)
+        timeout(time: 1, unit: 'HOURS')
+    }
+
+    stages{
+        stage('Stage 1'){
+            steps{
+                script{
+                    echo "This is Stage 1"
+                    sleep 10
+                }
+            }
+        }
+    }
+}
