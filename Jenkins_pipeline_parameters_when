@@ -1,0 +1,57 @@
+pipeline{
+    agent any
+
+    parameters{
+        choice(name: 'Select_Environment', choices : ['Dev', 'QA', 'Prod'])
+    }
+
+    stages{
+        stage('Development Stage'){
+
+            when{
+                expression{
+                    return params.Select_Environment == 'Dev'
+                }
+            }
+            steps{
+                echo "This is Development stage"
+            }
+        }
+
+        stage('QA Stage'){
+            when{
+                expression{
+                    return params.Select_Environment == 'QA'
+                }
+            }
+            steps{
+                echo "This is QA stage"
+            }
+        }
+
+        stage('Production Stage'){
+            when{
+                expression{
+                    return params.Select_Environment == 'Prod'
+                }
+            }
+            steps{
+                echo "This is Production Stage"
+                sh 'exit 1'
+            }
+        }
+    }
+    post{
+        always{
+            echo  "This will execute always"
+        }
+
+        success{
+            echo "Execute only on all success"
+        }
+
+        failure{
+            echo "Execute on failure"
+        }
+    }
+}

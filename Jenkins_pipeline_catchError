@@ -1,0 +1,66 @@
+pipeline{
+    agent any
+
+    environment{
+        GitHub_url = 'https://github.com/saimanikantagang/pipeline_script.git'
+        branch = 'main'
+        id = 'saimanikantagang'
+    }
+    options{
+        timestamps()
+    }
+    parameters{
+        choice(name:'Select_Environment', choices:['Dev', 'QA', 'Prod'], description: 'Select any one of the env')
+    }
+    stages{
+
+        stage('Development Stage'){
+            when{
+                expression{
+                    return params.Select_Environment == 'Dev'
+                }
+            }
+            steps{
+                script{
+                    echo "This is Development Stage"
+                git branch : "${env.branch}",
+                    url : "${env.GitHub_url}",
+                    credentialsId : "${env.id}"
+                }
+
+                sh '''
+                    ls -lrt
+                '''
+            }
+        }
+
+        stage('QA Stage'){
+            when{
+                expression{
+                    return params.Select_Environment == 'QA'
+                }
+            }
+            steps{
+                    script{
+                        echo "This is QA Stage"
+                    }
+                }
+            }
+        }
+
+    }
+
+    post{
+        always{
+            echo "This will execute always"
+        }
+
+        success{
+            echo "This will execute for all success builds"
+        }
+
+        failure{
+            echo "This will execute for failures"
+        }
+    }
+}
