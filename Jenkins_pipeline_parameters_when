@@ -3,6 +3,7 @@ pipeline{
 
     parameters{
         choice(name: 'Select_Environment', choices : ['Dev', 'QA', 'Prod'])
+        string(name:'Name', defaultValue:'', description:'Enter your Name')
     }
 
     stages{
